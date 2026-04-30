@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Panel</title>
+</head>
+<body>
+
+<h1>Admin Dashboard</h1>
+
+<h3>Upload Content</h3>
+<input id="group" placeholder="groupA/groupBC">
+<textarea id="videos" placeholder="Video URLs"></textarea>
+<textarea id="notes" placeholder="Notes URLs"></textarea>
+<button onclick="upload()">Upload</button>
+
+<h3>Create Test</h3>
+<textarea id="questions"></textarea>
+<button onclick="createTest()">Create</button>
+
+<script>
+const API = "http://localhost:3000";
+
+async function upload(){
+  await fetch(API+'/api/admin/upload',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({
+      group: group.value,
+      videos: videos.value.split(','),
+      notes: notes.value.split(',')
+    })
+  });
+  alert("Uploaded");
+}
+
+async function createTest(){
+  await fetch(API+'/api/admin/create-test',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({
+      title:"Test",
+      group: group.value,
+      questions: JSON.parse(questions.value)
+    })
+  });
+  alert("Test created");
+}
+</script>
+
+</body>
+</html>
